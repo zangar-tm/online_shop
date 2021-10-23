@@ -3,8 +3,8 @@ package shop
 import "errors"
 
 type Category struct {
-	Id   int    `json:"id" db:"id"`
-	Name string `json:"name" db:"name"`
+	Id    int    `json:"id" db:"id"`
+	Title string `json:"title" db:"title" binding:"required"`
 }
 
 type CategoryProducts struct {
@@ -15,21 +15,21 @@ type CategoryProducts struct {
 
 type Product struct {
 	Id          int    `json:"id" db:"id"`
-	Name        string `json:"name" db:"name"`
+	Title       string `json:"title" db:"title" binding:"required"`
 	Description string `json:"description" db:"description"`
-	Image       string `json:"image" db:"image"`
-	Price       int    `json:"price" db:"price"`
+	Image       string `json:"image" db:"image" binding:"required"`
+	Price       int    `json:"price" db:"price" binding:"required"`
 }
 
 type UpdateProductInput struct {
-	Name        *string `json:"name"`
+	Title       *string `json:"title"`
 	Description *string `json:"description"`
 	Price       *int    `json:"price"`
 	Image       *string `json:"image"`
 }
 
 func (i UpdateProductInput) Validate() error {
-	if i.Name == nil && i.Description == nil && i.Price == nil && i.Image == nil {
+	if i.Title == nil && i.Description == nil && i.Price == nil && i.Image == nil {
 		return errors.New("update structure has no values")
 	}
 
@@ -37,11 +37,11 @@ func (i UpdateProductInput) Validate() error {
 }
 
 type UpdateCategoryInput struct {
-	Name *string `json:"name"`
+	Title *string `json:"title"`
 }
 
 func (i UpdateCategoryInput) Validate() error {
-	if i.Name == nil {
+	if i.Title == nil {
 		return errors.New("update structure has no values")
 	}
 

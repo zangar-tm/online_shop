@@ -11,19 +11,19 @@ type Authorization interface {
 }
 
 type Product interface {
-	Create(userId int, list shop.Product) (int, error)
-	GetAll(userId int) ([]shop.Product, error)
-	GetById(userId, listId int) (shop.Product, error)
-	Delete(userId, listId int) error
-	Update(userId, listId int, input shop.UpdateProductInput) error
+	Create(product shop.Product) (int, error)
+	GetAll() ([]shop.Product, error)
+	GetById(productId int) (shop.Product, error)
+	Delete(productId int) error
+	Update(productId int, input shop.UpdateProductInput) error
 }
 
 type Category interface {
-	Create(userId int, list shop.Category) (int, error)
-	GetAll(userId int) ([]shop.Category, error)
-	GetById(userId, listId int) (shop.Category, error)
-	Delete(userId, listId int) error
-	Update(userId, listId int, input shop.UpdateCategoryInput) error
+	Create(list shop.Category) (int, error)
+	GetAll() ([]shop.Category, error)
+	GetById(listId int) (shop.Category, error)
+	Delete(listId int) error
+	// Update(listId int, input shop.UpdateCategoryInput) error
 }
 
 type Repository struct {
@@ -33,5 +33,7 @@ type Repository struct {
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		Category: NewCategoryRepository(db),
+	}
 }
