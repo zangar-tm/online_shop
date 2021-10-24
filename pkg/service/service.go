@@ -12,10 +12,10 @@ type Authorization interface {
 }
 
 type Product interface {
-	Create(product shop.Product) (int, error)
-	GetAll() ([]shop.Product, error)
-	GetById(productId int) (shop.Product, error)
-	Delete(productId int) error
+	Create(categoryId int, product shop.Product) (int, error)
+	GetAll(cateogryId int) ([]shop.Product, error)
+	GetById(categoryId, productId int) (shop.Product, error)
+	Delete(categoryId, productId int) error
 	Update(productId int, input shop.UpdateProductInput) error
 }
 
@@ -24,7 +24,7 @@ type Category interface {
 	GetAll() ([]shop.Category, error)
 	GetById(categoryId int) (shop.Category, error)
 	Delete(categoryId int) error
-	// Update(categoryId int, input shop.UpdateCategoryInput) error
+	Update(categoryId int, input shop.UpdateCategoryInput) error
 }
 
 type Service struct {
@@ -36,5 +36,6 @@ type Service struct {
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
 		Category: NewCategoryService(repo.Category),
+		Product:  NewProductService(repo.Product),
 	}
 }

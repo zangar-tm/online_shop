@@ -31,13 +31,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			categories.PUT("/:id", h.updateCategory)
 			categories.DELETE("/:id", h.deleteCategory)
 
-			products := categories.Group("/products")
+			products := categories.Group(":id/products")
 			{
 				products.POST("/", h.createProduct)
 				products.GET("/", h.getProducts)
-				products.GET("/:id", h.getProductById)
-				products.PUT("/:id", h.updateProduct)
-				products.DELETE("/:id", h.deleteCategory)
+				products.GET("/:prod_id", h.getProductById)
+				products.PUT("/:prod_id", h.updateProduct)
+				products.DELETE("/:prod_id", h.deleteProduct)
 			}
 		}
 	}

@@ -11,7 +11,7 @@ type CategoryPostgres struct {
 	db *sqlx.DB
 }
 
-func NewCategoryRepository(db *sqlx.DB) *CategoryPostgres {
+func NewCategoryPostgres(db *sqlx.DB) *CategoryPostgres {
 	return &CategoryPostgres{db: db}
 }
 func (r *CategoryPostgres) Create(category shop.Category) (int, error) {
@@ -55,23 +55,14 @@ func (r *CategoryPostgres) Delete(categoryId int) error {
 	return err
 }
 
-// func (r *CategoryPostgres) Update(categoryId int, input shop.UpdateCategoryInput) error {
-// 	var setValue string
-// 	args := make([]interface{}, 0)
-// 	argId := 1
+func (r *CategoryPostgres) Update(categoryId int, input shop.UpdateCategoryInput) error {
+	var arg string
 
-// 	if input.Title != nil {
-// 		setValue = append(setValue, fmt.Sprintf("title=$%d", argId))
-// 		args = append(args, *input.Title)
-// 	}
+	if input.Title != nil {
+		arg = *input.Title
+	}
 
-// 	query := fmt.Sprintf("UPDATE %s tl SET %s FROM %s ul WHERE tl.id = ul.list_id AND ul.list_id=$%d AND ul.user_id=$%d",
-// 		categoriesTable, setQuery, argId, argId+1)
-// 	args = append(args, listId, userId)
-
-// 	logrus.Debugf("updateQuery: %s", query)
-// 	logrus.Debugf("args: %s", args)
-
-// 	_, err := r.db.Exec(query, args...)
-// 	return err
-// }
+	query := fmt.Sprintf("UPDATE %s ct SET title=$1 WHERE ct.id = $2", categoriesTable)
+	_, err := r.db.Exec(query, arg, categoryId)
+	return err
+}

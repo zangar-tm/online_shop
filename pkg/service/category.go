@@ -29,6 +29,6 @@ func (s *CategoryService) Delete(categoryId int) error {
 	return s.repo.Delete(categoryId)
 }
 
-// func (s *Service) Update(categoryId int, input shop.UpdateCategoryInput) error {
-
-// }
+func (s *CategoryService) Update(categoryId int, input shop.UpdateCategoryInput) error {
+	return s.repo.Update(categoryId, input)
+}

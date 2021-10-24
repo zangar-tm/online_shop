@@ -1,6 +1,7 @@
 package service
 
 import (
+	shop "github.com/zangar-tm/online_shop"
 	"github.com/zangar-tm/online_shop/pkg/repository"
 )
 
@@ -12,22 +13,22 @@ func NewProductService(repo repository.Product) *ProductService {
 	return &ProductService{repo: repo}
 }
 
-// func (s *Service) Create(product shop.Product) (int, error) {
-// 	//return s.repo.Create(product)
-// }
+func (s *ProductService) Create(categoryId int, product shop.Product) (int, error) {
+	return s.repo.Create(categoryId, product)
+}
 
-// func (s *Service) GetAll() ([]shop.Product, error) {
+func (s *ProductService) GetAll(cateogryId int) ([]shop.Product, error) {
+	return s.repo.GetAll(cateogryId)
+}
 
-// }
+func (s *ProductService) GetById(categoryId, productId int) (shop.Product, error) {
+	return s.repo.GetById(categoryId, productId)
+}
 
-// func (s *Service) GetById(productId int) (shop.Product, error) {
+func (s *ProductService) Delete(categoryId, productId int) error {
+	return s.repo.Delete(categoryId, productId)
+}
 
-// }
-
-// func (s *Service) Delete(productId int) error {
-
-// }
-
-// func (s *Service) Update(productId int, input shop.UpdateProductInput) error {
-
-// }
+func (s *ProductService) Update(productId int, input shop.UpdateProductInput) error {
+	return s.repo.Update(productId, input)
+}
