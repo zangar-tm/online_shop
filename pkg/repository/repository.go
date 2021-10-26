@@ -34,7 +34,8 @@ type Repository struct {
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Product:  NewProductPostgres(db),
-		Category: NewCategoryPostgres(db),
+		Authorization: NewAuthPostgres(db),
+		Product:       NewProductPostgres(db),
+		Category:      NewCategoryPostgres(db),
 	}
 }

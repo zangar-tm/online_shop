@@ -21,7 +21,6 @@ CREATE TABLE categories
     title       varchar(255) not null
 );
 
-
 CREATE TABLE categories_products
 (
     id      serial                                           not null unique,

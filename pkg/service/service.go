@@ -35,7 +35,8 @@ type Service struct {
 
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
-		Category: NewCategoryService(repo.Category),
-		Product:  NewProductService(repo.Product),
+		Authorization: NewAuthService(repo.Authorization),
+		Category:      NewCategoryService(repo.Category),
+		Product:       NewProductService(repo.Product),
 	}
 }
