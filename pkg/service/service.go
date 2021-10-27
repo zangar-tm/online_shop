@@ -27,10 +27,15 @@ type Category interface {
 	Update(categoryId int, input shop.UpdateCategoryInput) error
 }
 
+type Comment interface {
+	Create(userId, productId int, comment shop.Comment) (int, error)
+	GetAll(productId int) ([]shop.Comment, error)
+}
 type Service struct {
 	Authorization
 	Product
 	Category
+	Comment
 }
 
 func NewService(repo *repository.Repository) *Service {
@@ -38,5 +43,6 @@ func NewService(repo *repository.Repository) *Service {
 		Authorization: NewAuthService(repo.Authorization),
 		Category:      NewCategoryService(repo.Category),
 		Product:       NewProductService(repo.Product),
+		Comment:       NewCommentService(repo.Comment),
 	}
 }

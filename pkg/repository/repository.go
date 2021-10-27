@@ -26,10 +26,15 @@ type Category interface {
 	Update(categoryId int, input shop.UpdateCategoryInput) error
 }
 
+type Comment interface {
+	Create(userId, productId int, comment shop.Comment) (int, error)
+	GetAll(productId int) ([]shop.Comment, error)
+}
 type Repository struct {
 	Authorization
 	Product
 	Category
+	Comment
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -37,5 +42,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db),
 		Product:       NewProductPostgres(db),
 		Category:      NewCategoryPostgres(db),
+		Comment:       NewCommentPostgres(db),
 	}
 }

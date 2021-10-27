@@ -27,3 +27,18 @@ CREATE TABLE categories_products
     product_id int references products (id) on delete cascade not null,
     category_id int references categories (id) on delete cascade not null
 );
+
+CREATE TABLE comments
+(
+    id serial not null unique,
+    title varchar(255) not null,
+    body text not null,
+    user_id int references users (id) on delete cascade not null
+);
+
+CREATE TABLE products_comments
+(
+    id serial not null unique,
+    comment_id int references comments (id) on delete cascade not null,
+    product_id int references products (id) on delete cascade not null
+);

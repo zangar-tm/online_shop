@@ -38,7 +38,21 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				products.GET("/:prod_id", h.getProductById)
 				products.PUT("/:prod_id", h.updateProduct)
 				products.DELETE("/:prod_id", h.deleteProduct)
+
+				comments := products.Group(":prod_id/comments", h.userIdentity)
+				{
+					comments.POST("/", h.createComment)
+					comments.GET("/", h.getComments)
+				}
 			}
+		}
+		shopping_cart := api.Group("/shopping-cart")
+		{
+			shopping_cart.POST("/", h.addToCart)
+			shopping_cart.GET("/", h.getUsersProducts)
+			shopping_cart.GET("/:id", h.getProductById)
+			shopping_cart.DELETE("/", h.deleteUsersProduct)
+
 		}
 	}
 	return router
