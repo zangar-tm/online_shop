@@ -47,3 +47,15 @@ func (i UpdateCategoryInput) Validate() error {
 
 	return nil
 }
+
+type UsersCart struct {
+	// Id        int `json:"id" db:"id"`
+	ProductId int `json:"product_id" db:"product_id"`
+}
+
+type MyCart struct {
+	// Id     int    `json:"id" db:"id"`
+	ProdId int    `json:"prod_id" db:"id"`
+	Title  string `json:"title" db:"title"`
+	Price  int    `json:"price" db:"price"`
+}

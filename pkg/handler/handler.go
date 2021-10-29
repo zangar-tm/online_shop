@@ -46,12 +46,12 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				}
 			}
 		}
-		shopping_cart := api.Group("/shopping-cart")
+		shopping_cart := api.Group("/cart", h.userIdentity)
 		{
 			shopping_cart.POST("/", h.addToCart)
 			shopping_cart.GET("/", h.getUsersProducts)
-			shopping_cart.GET("/:id", h.getProductById)
-			shopping_cart.DELETE("/", h.deleteUsersProduct)
+			shopping_cart.GET("/:prod_id", h.getUsersProductById)
+			shopping_cart.DELETE("/:prod_id", h.deleteUsersProduct)
 
 		}
 	}

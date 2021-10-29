@@ -13,6 +13,7 @@ const (
 	categoriesProductsTable = "categories_products"
 	commentsTable           = "comments"
 	productsCommentsTable   = "products_comments"
+	cartTable               = "cart"
 )
 
 type Config struct {

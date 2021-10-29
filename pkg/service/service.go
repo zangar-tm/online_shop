@@ -5,6 +5,8 @@ import (
 	"github.com/zangar-tm/online_shop/pkg/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Authorization interface {
 	CreateUser(user shop.User) (int, error)
 	GenerateToken(username, password string) (string, error)
@@ -31,11 +33,20 @@ type Comment interface {
 	Create(userId, productId int, comment shop.Comment) (int, error)
 	GetAll(productId int) ([]shop.Comment, error)
 }
+
+type Cart interface {
+	Create(userId int, input shop.UsersCart) (int, error)
+	GetAll(userId int) ([]shop.MyCart, error)
+	GetById(productId int) (shop.Product, error)
+	Delete(productId int) error
+}
+
 type Service struct {
 	Authorization
 	Product
 	Category
 	Comment
+	Cart
 }
 
 func NewService(repo *repository.Repository) *Service {
@@ -44,5 +55,6 @@ func NewService(repo *repository.Repository) *Service {
 		Category:      NewCategoryService(repo.Category),
 		Product:       NewProductService(repo.Product),
 		Comment:       NewCommentService(repo.Comment),
+		Cart:          NewCartService(repo.Cart),
 	}
 }

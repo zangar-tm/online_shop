@@ -42,3 +42,12 @@ CREATE TABLE products_comments
     comment_id int references comments (id) on delete cascade not null,
     product_id int references products (id) on delete cascade not null
 );
+
+CREATE TABLE cart
+(
+    id serial not null unique,
+    product_id int references products (id) on delete cascade not null, 
+    user_id int not null
+);
+
+-- references products (id) on delete cascade

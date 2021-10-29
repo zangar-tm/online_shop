@@ -1,3 +1,4 @@
+DROP TABLE cart;
 DROP TABLE products_comments;
 DROP TABLE comments;
 DROP TABLE categories_products;

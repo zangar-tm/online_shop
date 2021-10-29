@@ -30,11 +30,20 @@ type Comment interface {
 	Create(userId, productId int, comment shop.Comment) (int, error)
 	GetAll(productId int) ([]shop.Comment, error)
 }
+
+type Cart interface {
+	Create(userId int, input shop.UsersCart) (int, error)
+	GetAll(userId int) ([]shop.MyCart, error)
+	GetById(productId int) (shop.Product, error)
+	Delete(productId int) error
+}
+
 type Repository struct {
 	Authorization
 	Product
 	Category
 	Comment
+	Cart
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -43,5 +52,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Product:       NewProductPostgres(db),
 		Category:      NewCategoryPostgres(db),
 		Comment:       NewCommentPostgres(db),
+		Cart:          NewCartPostgres(db),
 	}
 }
