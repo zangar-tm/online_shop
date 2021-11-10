@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 type CartPostgres struct {
@@ -15,7 +15,7 @@ func NewCartPostgres(db *sqlx.DB) *CartPostgres {
 	return &CartPostgres{db: db}
 }
 
-func (r *CartPostgres) Create(userId int, input shop.UsersCart) (int, error) {
+func (r *CartPostgres) Create(userId int, input models.UsersCart) (int, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -30,8 +30,8 @@ func (r *CartPostgres) Create(userId int, input shop.UsersCart) (int, error) {
 	return id, tx.Commit()
 }
 
-func (r *CartPostgres) GetAll(userId int) ([]shop.MyCart, error) {
-	var mycart []shop.MyCart
+func (r *CartPostgres) GetAll(userId int) ([]models.MyCart, error) {
+	var mycart []models.MyCart
 
 	query := fmt.Sprintf("SELECT pt.id, pt.title, pt.price FROM %s pt INNER JOIN %s ct on pt.id = ct.product_id WHERE ct.user_id = $1", productsTable, cartTable)
 	err := r.db.Select(&mycart, query, userId)
@@ -39,8 +39,8 @@ func (r *CartPostgres) GetAll(userId int) ([]shop.MyCart, error) {
 	return mycart, err
 }
 
-func (r *CartPostgres) GetById(productId int) (shop.Product, error) {
-	var product shop.Product
+func (r *CartPostgres) GetById(productId int) (models.Product, error) {
+	var product models.Product
 
 	query := fmt.Sprintf(`SELECT id, title, price, description, image FROM %s WHERE id=$1`, productsTable)
 	err := r.db.Get(&product, query, productId)

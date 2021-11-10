@@ -1,4 +1,4 @@
-package shop
+package models
 
 import "errors"
 

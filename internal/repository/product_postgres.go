@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/jmoiron/sqlx"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 type ProductPostgres struct {
@@ -16,7 +16,7 @@ func NewProductPostgres(db *sqlx.DB) *ProductPostgres {
 	return &ProductPostgres{db: db}
 }
 
-func (r *ProductPostgres) Create(categoryId int, product shop.Product) (int, error) {
+func (r *ProductPostgres) Create(categoryId int, product models.Product) (int, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -42,16 +42,16 @@ func (r *ProductPostgres) Create(categoryId int, product shop.Product) (int, err
 	return productId, tx.Commit()
 }
 
-func (r *ProductPostgres) GetAll(categoryId int) ([]shop.Product, error) {
-	var products []shop.Product
+func (r *ProductPostgres) GetAll(categoryId int) ([]models.Product, error) {
+	var products []models.Product
 
 	query := fmt.Sprintf("SELECT pt.id, pt.title, pt.price, pt.description, pt.image FROM %s pt INNER JOIN %s cpt on pt.id = cpt.product_id WHERE cpt.category_id = $1", productsTable, categoriesProductsTable)
 	err := r.db.Select(&products, query, categoryId)
 
 	return products, err
 }
-func (r *ProductPostgres) GetById(categoryId, productId int) (shop.Product, error) {
-	var product shop.Product
+func (r *ProductPostgres) GetById(categoryId, productId int) (models.Product, error) {
+	var product models.Product
 
 	query := fmt.Sprintf(`SELECT pt.id, pt.title, pt.price, pt.description, pt.image FROM %s pt 
 																INNER JOIN %s cpt on cpt.product_id=pt.id WHERE cpt.category_id=$1 AND cpt.product_id=$2`, productsTable, categoriesProductsTable)
@@ -68,7 +68,7 @@ func (r *ProductPostgres) Delete(categoryId, productId int) error {
 	return err
 }
 
-func (r *ProductPostgres) Update(productId int, input shop.UpdateProductInput) error {
+func (r *ProductPostgres) Update(productId int, input models.UpdateProductInput) error {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
 	argId := 1

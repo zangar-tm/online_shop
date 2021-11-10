@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 func (h *Handler) createCategory(c *gin.Context) {
-	var input shop.Category
+	var input models.Category
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -27,7 +27,7 @@ func (h *Handler) createCategory(c *gin.Context) {
 }
 
 type getAllCategoriesResponse struct {
-	Data []shop.Category `json:"data"`
+	Data []models.Category `json:"data"`
 }
 
 func (h *Handler) getCategories(c *gin.Context) {
@@ -65,7 +65,7 @@ func (h *Handler) updateCategory(c *gin.Context) {
 		return
 	}
 
-	var input shop.UpdateCategoryInput
+	var input models.UpdateCategoryInput
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return

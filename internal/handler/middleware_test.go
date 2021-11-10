@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/zangar-tm/online_shop/pkg/service"
-	service_mocks "github.com/zangar-tm/online_shop/pkg/service/mocks"
+	"github.com/zangar-tm/online_shop/internal/service"
+	service_mocks "github.com/zangar-tm/online_shop/internal/service/mocks"
 )
 
 func TestHandler_userIdentity(t *testing.T) {

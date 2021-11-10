@@ -9,19 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/assert/v2"
 	"github.com/golang/mock/gomock"
-	shop "github.com/zangar-tm/online_shop"
-	"github.com/zangar-tm/online_shop/pkg/service"
-	mock_service "github.com/zangar-tm/online_shop/pkg/service/mocks"
+	"github.com/zangar-tm/online_shop/internal/service"
+	mock_service "github.com/zangar-tm/online_shop/internal/service/mocks"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 func TestHandler_signUp(t *testing.T) {
 	// Init Test Table
-	type mockBehavior func(r *mock_service.MockAuthorization, user shop.User)
+	type mockBehavior func(r *mock_service.MockAuthorization, user models.User)
 
 	tests := []struct {
 		name                 string
 		inputBody            string
-		inputUser            shop.User
+		inputUser            models.User
 		mockBehavior         mockBehavior
 		expectedStatusCode   int
 		expectedResponseBody string
@@ -29,12 +29,12 @@ func TestHandler_signUp(t *testing.T) {
 		{
 			name:      "Ok",
 			inputBody: `{"username": "username", "name": "Test Name", "password": "secret"}`,
-			inputUser: shop.User{
+			inputUser: models.User{
 				Username: "username",
 				Name:     "Test Name",
 				Password: "secret",
 			},
-			mockBehavior: func(r *mock_service.MockAuthorization, user shop.User) {
+			mockBehavior: func(r *mock_service.MockAuthorization, user models.User) {
 				r.EXPECT().CreateUser(user).Return(1, nil)
 			},
 			expectedStatusCode:   200,
@@ -43,20 +43,20 @@ func TestHandler_signUp(t *testing.T) {
 		{
 			name:                 "Wrong Input",
 			inputBody:            `{"username": "username"}`,
-			inputUser:            shop.User{},
-			mockBehavior:         func(r *mock_service.MockAuthorization, user shop.User) {},
+			inputUser:            models.User{},
+			mockBehavior:         func(r *mock_service.MockAuthorization, user models.User) {},
 			expectedStatusCode:   400,
 			expectedResponseBody: `{"message":"invalid input body"}`,
 		},
 		{
 			name:      "Service Error",
 			inputBody: `{"username": "username", "name": "Test Name", "password": "secret"}`,
-			inputUser: shop.User{
+			inputUser: models.User{
 				Username: "username",
 				Name:     "Test Name",
 				Password: "secret",
 			},
-			mockBehavior: func(r *mock_service.MockAuthorization, user shop.User) {
+			mockBehavior: func(r *mock_service.MockAuthorization, user models.User) {
 				r.EXPECT().CreateUser(user).Return(0, errors.New("something went wrong"))
 			},
 			expectedStatusCode:   500,

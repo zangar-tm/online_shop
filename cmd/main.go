@@ -9,9 +9,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	shop "github.com/zangar-tm/online_shop"
-	"github.com/zangar-tm/online_shop/pkg/handler"
-	"github.com/zangar-tm/online_shop/pkg/repository"
-	"github.com/zangar-tm/online_shop/pkg/service"
+	"github.com/zangar-tm/online_shop/internal/handler"
+	"github.com/zangar-tm/online_shop/internal/repository"
+	"github.com/zangar-tm/online_shop/internal/service"
 )
 
 func main() {

@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 func (h *Handler) signUp(c *gin.Context) {
-	var input shop.User
+	var input models.User
 
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid input body")

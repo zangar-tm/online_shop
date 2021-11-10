@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 type CategoryPostgres struct {
@@ -14,7 +14,7 @@ type CategoryPostgres struct {
 func NewCategoryPostgres(db *sqlx.DB) *CategoryPostgres {
 	return &CategoryPostgres{db: db}
 }
-func (r *CategoryPostgres) Create(category shop.Category) (int, error) {
+func (r *CategoryPostgres) Create(category models.Category) (int, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -30,8 +30,8 @@ func (r *CategoryPostgres) Create(category shop.Category) (int, error) {
 	return id, tx.Commit()
 }
 
-func (r *CategoryPostgres) GetAll() ([]shop.Category, error) {
-	var categories []shop.Category
+func (r *CategoryPostgres) GetAll() ([]models.Category, error) {
+	var categories []models.Category
 
 	query := fmt.Sprintf("SELECT id, title FROM %s", categoriesTable)
 	err := r.db.Select(&categories, query)
@@ -39,8 +39,8 @@ func (r *CategoryPostgres) GetAll() ([]shop.Category, error) {
 	return categories, err
 }
 
-func (r *CategoryPostgres) GetById(categoryId int) (shop.Category, error) {
-	var category shop.Category
+func (r *CategoryPostgres) GetById(categoryId int) (models.Category, error) {
+	var category models.Category
 
 	query := fmt.Sprintf(`SELECT id, title FROM %s WHERE id=$1`, categoriesTable)
 	err := r.db.Get(&category, query, categoryId)
@@ -55,7 +55,7 @@ func (r *CategoryPostgres) Delete(categoryId int) error {
 	return err
 }
 
-func (r *CategoryPostgres) Update(categoryId int, input shop.UpdateCategoryInput) error {
+func (r *CategoryPostgres) Update(categoryId int, input models.UpdateCategoryInput) error {
 	var arg string
 
 	if input.Title != nil {

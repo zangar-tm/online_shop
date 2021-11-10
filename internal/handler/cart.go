@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 func (h *Handler) addToCart(c *gin.Context) {
@@ -14,7 +14,7 @@ func (h *Handler) addToCart(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	var input shop.UsersCart
+	var input models.UsersCart
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -33,7 +33,7 @@ func (h *Handler) addToCart(c *gin.Context) {
 }
 
 type getMyCartResponse struct {
-	Data []shop.MyCart `json:"data"`
+	Data []models.MyCart `json:"data"`
 }
 
 func (h *Handler) getUsersProducts(c *gin.Context) {

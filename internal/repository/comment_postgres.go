@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 type CommentPostgres struct {
@@ -15,7 +15,7 @@ func NewCommentPostgres(db *sqlx.DB) *CommentPostgres {
 	return &CommentPostgres{db: db}
 }
 
-func (r *CommentPostgres) Create(userId, productId int, comment shop.Comment) (int, error) {
+func (r *CommentPostgres) Create(userId, productId int, comment models.Comment) (int, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -41,8 +41,8 @@ func (r *CommentPostgres) Create(userId, productId int, comment shop.Comment) (i
 	return commentId, tx.Commit()
 }
 
-func (r *CommentPostgres) GetAll(productId int) ([]shop.Comment, error) {
-	var comments []shop.Comment
+func (r *CommentPostgres) GetAll(productId int) ([]models.Comment, error) {
+	var comments []models.Comment
 	query := fmt.Sprintf(`SELECT ct.id, ct.title, ct.body, ct.user_id FROM %s ct INNER JOIN %s pct on pct.comment_id = ct.id WHERE pct.product_id = $1`,
 		commentsTable, productsCommentsTable)
 	if err := r.db.Select(&comments, query, productId); err != nil {

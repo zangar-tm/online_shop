@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 func (h *Handler) createComment(c *gin.Context) {
@@ -20,7 +20,7 @@ func (h *Handler) createComment(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, "invalid product id param")
 		return
 	}
-	var input shop.Comment
+	var input models.Comment
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -38,7 +38,7 @@ func (h *Handler) createComment(c *gin.Context) {
 }
 
 type getAllCommentsResponse struct {
-	Data []shop.Comment `json:"data"`
+	Data []models.Comment `json:"data"`
 }
 
 func (h *Handler) getComments(c *gin.Context) {

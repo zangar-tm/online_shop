@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/zangar-tm/online_shop/pkg/service"
+	"github.com/zangar-tm/online_shop/internal/service"
 )
 
 type Handler struct {

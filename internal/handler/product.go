@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	shop "github.com/zangar-tm/online_shop"
+	"github.com/zangar-tm/online_shop/models"
 )
 
 func (h *Handler) createProduct(c *gin.Context) {
-	var input shop.Product
+	var input models.Product
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -33,7 +33,7 @@ func (h *Handler) createProduct(c *gin.Context) {
 }
 
 type getAllProductsResponse struct {
-	Data []shop.Product `json:"data"`
+	Data []models.Product `json:"data"`
 }
 
 func (h *Handler) getProducts(c *gin.Context) {
@@ -75,19 +75,13 @@ func (h *Handler) getProductById(c *gin.Context) {
 }
 
 func (h *Handler) updateProduct(c *gin.Context) {
-	// categoryId, err := strconv.Atoi(c.Param("id"))
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, "invalid category id param")
-	// 	return
-	// }
-
 	productId, err := strconv.Atoi(c.Param("prod_id"))
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid product id param")
 		return
 	}
 
-	var input shop.UpdateProductInput
+	var input models.UpdateProductInput
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
